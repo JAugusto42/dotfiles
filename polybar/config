@@ -10,13 +10,12 @@ secondary = #e60053
 alert = #bd2c40
 
 [bar/example]
-;monitor = ${env:MONITOR:HDMI-1}
+monitor = LVDS1
 width = 100%
-height = 27
+height = 25
 ;offset-x = 1%
 ;offset-y = 1%
-fixed-center = false
-bottom = true
+fixed-center = true
 
 background = ${colors.background}
 foreground = ${colors.foreground}
@@ -24,7 +23,7 @@ foreground = ${colors.foreground}
 line-size = 3
 line-color = #f00
 
-border-size = 4
+border-size = 0
 border-color = #00000000
 
 padding-left = 0
@@ -41,8 +40,8 @@ font-4 = "Font Awesome 5 Free:style=Solid:size=10;1"
 font-5 = "Font Awesome 5 Brands:style=Regular:size=10;1"
 
 modules-left = i3
-modules-center = 
-modules-right = player_previous player_stop player_playpause player_next player_title pulseaudio filesystem xkeyboard memory cpu wlan eth battery temperature date
+modules-center = window
+modules-right = xbacklight pulseaudio wlan eth battery powermenu
 
 ;tray-position = right
 ;tray-padding = 2
@@ -120,16 +119,16 @@ wrapping-scroll = false
 ;pin-workspaces = true
 
 ; ws-icon-[0-9]+ = label;icon
-ws-icon-0 = 1;
-ws-icon-1 = 2;
-ws-icon-2 = 3;
-ws-icon-3 = 4;
-ws-icon-4 = 5;
-ws-icon-5 = 6;
-ws-icon-6 = 7;
-ws-icon-7 = 8;
+ws-icon-0 = 1;
+ws-icon-1 = 2;
+ws-icon-2 = 3;
+ws-icon-3 = 4;
+ws-icon-4 = 5;
+ws-icon-5 = 6;
+ws-icon-6 = 7;
+ws-icon-7 = 8;
 ws-icon-8 = 9;
-ws-icon-9 = 10;
+ws-icon-9 = 10;
 
 label-mode-padding = 2
 label-mode-foreground = #000
@@ -157,44 +156,29 @@ label-urgent-padding = ${module/bspwm.label-urgent-padding}
 ; Separator in between workspaces
 ; label-separator = |
 
-[module/player_previous]
-type = custom/text
-interval = 1
-content = 
-click-left = playerctl previous
-
-[module/player_stop]
-type = custom/text
-interval = 1
-content = 
-click-left = playerctl stop
-
-[module/player_playpause]
+[module/window]
 type = custom/script
 interval = 1
-label = %output%
-exec = ~/.config/polybar/playerctl_playpause.sh
-click-left = playerctl play-pause
-
-[module/player_next]
-type = custom/text
-interval = 1
-content = 
-click-left = playerctl next
-
-[module/player_title]
-type = custom/script
-interval = 1
-label = "%{F#1db954}%{F-} %output:0:45:...%"
-exec = ~/.config/polybar/playerctl_title.sh
-scroll-up = playerctl previous
-scroll-down = playerctl next
+format-prefix = " "
+;label = %output:0:45:...%  %{B- -o -u}
+label = %output:0:40:...%
+click-left = ~/.config/polybar/scripts/janela.sh -i
+click-middle = ~/.config/polybar/scripts/janela.sh -c
+click-right = ~/.config/polybar/scripts/janela.sh -w
+exec = ~/.config/polybar/scripts/janela.sh
 
 [module/xbacklight]
 type = internal/xbacklight
 
-format = <label> <bar>
-label = BL %percentage%%
+; Only applies if <ramp> is used
+ramp-0 = 🌕
+ramp-1 = 🌔
+ramp-2 = 🌓
+ramp-3 = 🌒
+ramp-4 = 🌑
+
+format = <label> <bar> <ramp>
+label = %percentage%%
 
 bar-width = 10
 bar-indicator = |
@@ -223,7 +207,7 @@ label = %percentage_used%%
 
 [module/wlan]
 type = internal/network
-interface = wlp60s0
+interface = wlp3s0
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
@@ -243,7 +227,7 @@ ramp-signal-foreground = ${colors.foreground-alt}
 
 [module/eth]
 type = internal/network
-interface = enp59s0
+interface = enp0s25
 interval = 3.0
 
 format-connected-prefix = " "
@@ -355,22 +339,6 @@ animation-discharging-2 = 
 animation-discharging-foreground = ${colors.foreground-alt}
 animation-discharging-framerate = 750
 
-[module/temperature]
-type = internal/temperature
-thermal-zone = 0
-warn-temperature = 60
-
-format = <ramp> <label>
-format-warn = <ramp> <label-warn>
-
-label = %temperature-c%
-label-warn = %temperature-c%
-label-warn-foreground = ${colors.secondary}
-
-ramp-0 = 
-ramp-1 = 
-ramp-2 = 
-ramp-foreground = ${colors.foreground-alt}
 
 [module/powermenu]
 type = custom/menu
@@ -394,10 +362,10 @@ menu-0-1-exec = menu-open-2
 menu-1-0 = cancel
 menu-1-0-exec = menu-open-0
 menu-1-1 = reboot
-menu-1-1-exec = sudo reboot
+menu-1-1-exec = systemctl reboot
 
 menu-2-0 = power off
-menu-2-0-exec = sudo poweroff
+menu-2-0-exec = systemctl poweroff
 menu-2-1 = cancel
 menu-2-1-exec = menu-open-0
 
