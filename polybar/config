@@ -40,7 +40,7 @@ font-4 = "Font Awesome 5 Free:style=Solid:size=10;1"
 font-5 = "Font Awesome 5 Brands:style=Regular:size=10;1"
 
 modules-left = i3
-modules-center = window
+modules-center = date
 modules-right = xbacklight pulseaudio wlan eth battery powermenu
 
 ;tray-position = right
@@ -177,7 +177,7 @@ ramp-2 = 🌓
 ramp-3 = 🌒
 ramp-4 = 🌑
 
-format = <label> <bar> <ramp>
+format = <ramp> <bar>
 label = %percentage%%
 
 bar-width = 10
@@ -210,7 +210,7 @@ type = internal/network
 interface = wlp3s0
 interval = 3.0
 
-format-connected = <ramp-signal> <label-connected>
+format-connected = <label-connected> <ramp-signal> 
 label-connected = %essid%
 
 format-disconnected =
@@ -218,11 +218,11 @@ format-disconnected =
 ;label-disconnected = %ifname% disconnected
 ;label-disconnected-foreground = ${colors.foreground-alt}
 
-ramp-signal-0 = 
-ramp-signal-1 = 
-ramp-signal-2 = 
-ramp-signal-3 = 
-ramp-signal-4 = 
+ramp-signal-0 = 
+ramp-signal-1 = 
+ramp-signal-2 = 
+ramp-signal-3 = 
+ramp-signal-4 = 
 ramp-signal-foreground = ${colors.foreground-alt}
 
 [module/eth]
@@ -257,9 +257,12 @@ label = %date% %time%
 [module/pulseaudio]
 type = internal/pulseaudio
 
-format-volume = <label-volume> <bar-volume>
+format-volume = <ramp-volume> <bar-volume>
 label-volume = VOL %percentage%%
 label-volume-foreground = ${root.foreground}
+
+ramp-volume-0 = 
+ramp-volume-1 = 
 
 label-muted =  Muted
 label-muted-foreground = #666
@@ -284,13 +287,17 @@ bar-volume-empty-foreground = ${colors.foreground-alt}
 [module/alsa]
 type = internal/alsa
 
-format-volume = <label-volume> <bar-volume>
+format-volume = <ramp-volume> <bar-volume>
 label-volume = VOL
 label-volume-foreground = ${root.foreground}
 
-format-muted-prefix = " "
+format-muted-prefix = "🔇 muted"
 format-muted-foreground = ${colors.foreground-alt}
 label-muted = sound muted
+
+ramp-volume-0 = 🔈
+ramp-volume-1 = 🔉
+ramp-volume-2 = 🔊
 
 bar-volume-width = 10
 bar-volume-foreground-0 = #55aa55
@@ -319,7 +326,7 @@ format-charging = <animation-charging> <label-charging>
 
 format-discharging = <animation-discharging> <label-discharging>
 
-format-full-prefix = " "
+format-full-prefix = ""
 format-full-prefix-foreground = ${colors.foreground-alt}
 
 ramp-capacity-0 = 
